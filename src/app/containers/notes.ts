@@ -20,11 +20,21 @@ import {NoteCard} from "../ui";
     </div>
     <div class="notes col-xs-8">
         <div class="row between-xs">
-            <note-card [note]="note"></note-card>
+            <note-card 
+                class="col-xs-4"
+                [note]="note"
+                *ngFor="let note of notes"
+            >
+            
+</note-card>
         </div>
     </div>
 </div>`
 })
 export class Notes {
-    note = {title: 'new note', value: 'note text goes here', color: 'seagreen'}
+    notes = [
+        {title: 'new note', value: 'note text goes here', color: 'seagreen'},
+        {title: 'Clean UP!', value: 'Don\'t forget to clean the room', color: 'lightblue'},
+        {title: 'Chores', value: 'Don\'t forget to clean the room', color: 'lightblue'}
+        ]
 }
