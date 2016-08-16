@@ -20,8 +20,7 @@ import {Component} from "@angular/core";
     <form class="row">
         <input 
                 type="text"
-                [ngModel]="newNote.title"
-                (ngModelChange)="newNote.title = $event"
+                [(ngModel)]="newNote.title"
                 name="newNoteTitle"
                 placeholder="Title"
                 class="col-xs-10 title"
@@ -29,8 +28,7 @@ import {Component} from "@angular/core";
 
         <input 
                 type="text"
-                [ngModel]="newNote.value"
-                (ngModelChange)="newNote.value = $event"
+                [(ngModel)]="newNote.value"
                 name="newNoteValue"
                 placeholder="Take a note ..."
                 class="col-xs-10"
