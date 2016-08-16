@@ -1,7 +1,11 @@
 import {Component, Output, EventEmitter} from "@angular/core";
+import { ColorPicker } from './color-picker';
 
 @Component({
     selector: 'note-creator',
+    directives: [
+        ColorPicker
+    ],
     styles: [`
 .note-creator {
     padding: 20px;
@@ -15,7 +19,7 @@ import {Component, Output, EventEmitter} from "@angular/core";
 .full {
     height: 100px;
 }`],
-    template: `<div class="note-creator shadow">
+    template: `<div class="note-creator shadow" [ngStyle]="{'background-color': newNote.color}">
 
     <form class="row" (submit)="onCreateNote()" >
         <input 
@@ -37,6 +41,14 @@ import {Component, Output, EventEmitter} from "@angular/core";
         >
         
         <div class="actions col-xs-12 row between-xs">
+            <div class="col-xs-3">
+                <color-picker 
+                        [colors]="colors"
+                        (selected)="onColorSelect($event)"
+                >
+                </color-picker>
+            </div>
+        
             <button
                     type="submit"
                     class="btn-light"
@@ -55,25 +67,33 @@ export class NoteCreator {
 
     newNote = {
         title: '',
-        value: ''
+        value: '',
+        color: 'white'
     };
+
+    colors: Array<string> = ['#b19cd9', '#ff9691', '#77dd77', '#aec6cf', '#f49ac2', 'white'];
 
     fullForm: boolean = false;
 
     reset() {
         this.newNote = {
             title: '',
-            value: ''
+            value: '',
+            color: 'white'
         };
     }
 
     onCreateNote() {
-        const {title, value} = this.newNote;
+        const {title, value, color} = this.newNote;
 
         if (title && value) {
-            this.createNote.next({title, value});
+            this.createNote.next({title, value, color});
             this.reset();
         }
+    }
+
+    onColorSelect(color) {
+        this.newNote.color = color;
     }
 
     toggle(value: boolean) {
