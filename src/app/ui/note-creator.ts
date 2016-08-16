@@ -1,4 +1,4 @@
-import {Component} from "@angular/core";
+import {Component, Output, EventEmitter} from "@angular/core";
 
 @Component({
     selector: 'note-creator',
@@ -16,8 +16,8 @@ import {Component} from "@angular/core";
     height: 100px;
 }`],
     template: `<div class="note-creator shadow">
-<pre>{{ newNote | json }}</pre>
-    <form class="row">
+
+    <form class="row" (submit)="onCreateNote()" >
         <input 
                 type="text"
                 [(ngModel)]="newNote.title"
@@ -47,8 +47,28 @@ import {Component} from "@angular/core";
 `
 })
 export class NoteCreator {
+
+    @Output() createNote = new EventEmitter();
+
     newNote = {
         title: '',
         value: ''
+    };
+
+    reset() {
+        this.newNote = {
+            title: '',
+            value: ''
+        };
     }
+
+    onCreateNote() {
+        const {title, value} = this.newNote;
+
+        if (title && value) {
+            this.createNote.next({title, value});
+            this.reset();
+        }
+    }
+
 }
