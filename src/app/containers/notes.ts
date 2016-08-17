@@ -1,6 +1,8 @@
 import {Component} from "@angular/core";
 import {NoteCard, NoteCreator} from "../ui";
 import { NoteService } from '../services';
+import {Store} from '../store';
+import 'rxjs/Rx';
 
 @Component({
     selector: 'notes-container',
@@ -38,21 +40,30 @@ import { NoteService } from '../services';
 export class Notes {
     notes = [];
 
-    constructor(private noteService: NoteService) {
+    constructor(
+        private noteService: NoteService,
+        private store: Store
+    ) {
+
+        // first - define a subscription to State.notes changes
+        this.store.changes.pluck('notes')
+            .subscribe((notes: any) => this.notes = notes);
+
+        // then get notes from api
+        // and noteService updates the Store
+        // which triggers the subscription we've defined earlier
+        // empty subscribe() required, because Observable is **lazy**
         this.noteService.getNotes()
-            .subscribe(response => this.notes = response.data);
+            .subscribe();
     }
 
     onNoteChecked(note, i) {
         this.noteService.completeNote(note)
-            .subscribe(note => {
-                const i = this.notes.findIndex(localNote => localNote.id === note.id);
-                this.notes.splice(i, 1);
-            });
+            .subscribe();
     }
 
     onNoteCreated(note) {
         this.noteService.createNote(note)
-            .subscribe(response => this.notes.push(response));
+            .subscribe();
     }
 }
