@@ -42,15 +42,11 @@ export class AuthService implements CanActivate {
     }
 
     isAuthorized(): boolean {
-        console.log(window.localStorage.getItem(this.JWT_KEY));
-        console.log(typeof window.localStorage.getItem(this.JWT_KEY));
-        console.log(Boolean(window.localStorage.getItem(this.JWT_KEY)));
         return Boolean(window.localStorage.getItem(this.JWT_KEY))
     }
 
     canActivate(): boolean {
         const isAuth = this.isAuthorized();
-        console.log(isAuth);
 
         if (!isAuth) {
             this.router.navigate(['', 'auth'])
