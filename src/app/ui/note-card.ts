@@ -8,6 +8,7 @@ import {Component, Input, Output, EventEmitter} from "@angular/core";
   border-radius: 2px;
   width: 100%;
   position: relative;
+  margin-bottom: 20px;
 }
 .title {
   font-size: 1.2rem;
