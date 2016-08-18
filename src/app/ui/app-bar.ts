@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router';
+import {AuthService} from '../services';
 
 @Component({
     selector: 'app-bar',
@@ -34,12 +35,16 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
     <nav class="col-xs-2">
         <row class="row middle-xs between-xs">
             <span [routerLink]="['', 'about']" class="link">About</span>
-            <span class="link">SignOut</span>
+            <span (click)="signout()" class="link">SignOut</span>
         </row>
     </nav>
 </header>
     `
 })
 export class AppBar {
+    constructor(private authService: AuthService) {}
 
+    signout() {
+        this.authService.signout();
+    }
 }

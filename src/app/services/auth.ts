@@ -7,7 +7,7 @@ import {Store} from "../store";
 @Injectable()
 export class AuthService implements CanActivate {
 
-    JWT_KEY: string = 'retain_token';
+    JWT_KEY: string = 'my_retain_token';
 
     constructor(
         private router: Router,
@@ -15,12 +15,17 @@ export class AuthService implements CanActivate {
         private storeHelper: StoreHelper,
         private store: Store
     ) {
-        this.setJwt(window.localStorage.getItem(this.JWT_KEY));
+
+        const jwtoken = window.localStorage.getItem(this.JWT_KEY);
+
+        if (jwtoken) {
+            this.setJwt(jwtoken);
+        }
     }
 
-    setJwt(jwt: string) {
-        window.localStorage.setItem(this.JWT_KEY, jwt);
-        this.apiService.setHeaders({Authorization: `Bearer ${jwt}`});
+    setJwt(jwtoken) {
+        window.localStorage.setItem(this.JWT_KEY, jwtoken);
+        this.apiService.setHeaders({Authorization: `Bearer ${jwtoken}`});
     }
 
     authenticate(path, credentials) {
@@ -37,11 +42,15 @@ export class AuthService implements CanActivate {
     }
 
     isAuthorized(): boolean {
+        console.log(window.localStorage.getItem(this.JWT_KEY));
+        console.log(typeof window.localStorage.getItem(this.JWT_KEY));
+        console.log(Boolean(window.localStorage.getItem(this.JWT_KEY)));
         return Boolean(window.localStorage.getItem(this.JWT_KEY))
     }
 
     canActivate(): boolean {
         const isAuth = this.isAuthorized();
+        console.log(isAuth);
 
         if (!isAuth) {
             this.router.navigate(['', 'auth'])
