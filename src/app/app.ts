@@ -7,7 +7,7 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
 		...ROUTER_DIRECTIVES
 	],
 	template: `
-	<div>
+	<div class="app">
 		<router-outlet></router-outlet>
 	</div>
 	`
