@@ -30,10 +30,10 @@ describe('ApiService', () => {
         ApiService
     ]));
 
-    beforeEach(inject[ApiService, MockBackend], (service, mock) => {
+    beforeEach(inject([ApiService, MockBackend], (service, mock) => {
         apiService = service;
         mockService = mock;
-    });
+    }));
 
     it('should make a get request', () => {
         let response = {notes: [1,2,3]};
