@@ -54,4 +54,24 @@ describe('ApiService', () => {
 
     });
 
+    it('should make a post request', () => {
+        let response = {notes: {value: 'thing'}};
+
+        mockService.connections.subscribe(connection => {
+            connection.mockRespond(new Response(
+                new ResponseOptions({
+                    body: JSON.stringify(response),
+                    status: 201
+                })
+            ))
+        });
+
+        apiService.post('/notes', response)
+            .subscribe(note => {
+                expect(note).toEqual(response);
+            })
+
+    });
+
+
 });
